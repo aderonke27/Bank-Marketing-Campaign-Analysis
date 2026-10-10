@@ -185,10 +185,6 @@ Project Files
 └── README.md
 [TO FILL: adjust the folder layout to match how you actually organize the repo. Also decide whether to publish both Word reports or only the final one.]
 
-Contact Information
-Name: [TO FILL]
-LinkedIn: [TO FILL]
-GitHub: [TO FILL: https://github.com/aderonke27]
-Email: [TO FILL]
-
-Claude finished the response
+## Contact Information
+* Email: aladeloyeesther616@gmail.com
+* LinkedIn: https://linkedin.com/in/estheraderonke
