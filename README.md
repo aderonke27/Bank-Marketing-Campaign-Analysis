@@ -1,1 +1,194 @@
 # Bank-Marketing-Campaign-Analysis
+
+## Table of Contents
+1. Project Overview
+2. Problem Statement
+3. Objectives
+4. Dataset Description
+5. Tools Used
+6. Data Cleaning Process
+7. Data Analysis
+8. Dashboard
+9. Key Insights
+10. Recommendations
+11. Limitations
+12. Conclusion
+13. Project Files
+14. Contact Information
+
+## Project Overview
+Banks sell term deposits (savings products where money is locked in for a fixed period at a set interest rate) partly through outbound phone campaigns. Each call costs staff time, and repeated calls to people who aren't interested can hurt the customer relationship.
+
+This project analyzes the results of a completed telemarketing campaign run by a Portuguese retail bank: 11,162 customer records, 17 fields, and a yes/no column showing whether the customer subscribed. The goal is to find out what separated the customers who subscribed from those who didn't, and to turn that into advice for the next campaign.
+
+## Problem Statement
+The bank wants its next term deposit campaign to be more effective, but right now it has no data-driven way to tell which customers are likely to say yes. Effort gets spread across the whole customer list instead of going where it pays off.
+
+Two questions guide the analysis:
+
+Why do some customers subscribe to term deposits while others do not?
+Which customer groups are more likely to respond positively to marketing campaigns?
+
+## Objectives
+Understand the dataset and check its quality (size, data types, missing values, duplicates).
+Calculate the conversion rate (share of customers who subscribed) across demographic, financial and campaign-contact variables.
+Identify the factors that influence subscription the most.
+Present the findings in an interactive Power BI dashboard.
+Give 3 to 5 recommendations the marketing team can act on.
+
+## Dataset Description
+Source: Bank Marketing Dataset on Kaggle (file used: bank.csv)
+Size: 11,162 rows × 17 columns
+Target variable: deposit (yes = 5,289 customers, 47.4%; no = 5,873 customers, 52.6%)
+Missing values: none (no blank cells). Duplicate rows: none.
+Origin: [TO FILL: confirm how you want to describe the origin. The Kaggle page says it comes from a Portuguese bank's marketing campaign, and your reports also reference the UCI Bank Marketing dataset.]
+Columns
+
+age: Integer. Customer age (18 to 95)
+job: Category. Type of job (12 categories, includes unknown)
+marital: Category. Married, single or divorced
+education: Category. Primary, secondary, tertiary or unknown
+default: Category. Has credit in default (yes/no)
+balance: Integer. Average yearly account balance (−6,847 to 81,204)
+housing: Category. Has a housing loan (yes/no)
+loan: Category. Has a personal loan (yes/no)
+contact: Category. Contact method: cellular, telephone or unknown
+day: Integer. Day of the month of last contact
+month: Category. Month of last contact
+duration: Integer. Length of last call in seconds
+campaign: Integer. Number of contacts during this campaign
+pdays: Integer. Days since the customer was last contacted in a previous campaign (−1 = never contacted)
+previous: Integer. Number of contacts before this campaign
+poutcome: Category. Outcome of the previous campaign: success, failure, other or unknown
+deposit: Category. Target. Did the customer subscribe to a term deposit (yes/no)
+[TO FILL: check the column descriptions above against the Kaggle data dictionary and adjust the wording if you want it to match exactly. For example, the unit for balance (euros) is not stated in the file.]
+
+## Tools Used
+Power BI Desktop: data loading, measures and the dashboard
+[TO FILL: Excel / Python / SQL and what you used it for. Delete this line if you only used Power BI.]
+PowerPoint: presentation of findings
+Word: written case study report
+GitHub: project hosting
+
+## Data Cleaning Process
+The data was already in good shape. The checks I confirmed:
+
+No missing values and no duplicate rows across all 11,162 records.
+Data types were correct: 7 numeric columns and 10 text columns.
+"unknown" values are present in four columns and were kept as their own category rather than deleted: job (70 rows), education (497), contact (2,346) and poutcome (8,326).
+Continuous fields were grouped into bands so patterns are easier to read:
+Age: Under 30, 30-39, 40-49, 50-59, 60+
+Account balance: Negative, Zero, 1-1,000, 1,001-5,000, 5,000+
+Number of calls: 1, 2, 3, 4-5, 6-10, 11+
+Pdays: Never contacted, <3 months, 3-6 months, 6-12 months, 12+ months
+[TO FILL: describe the steps you actually took in Power Query or elsewhere (for example, how you built the bands, whether you converted deposit to a 1/0 column, any renamed columns). I could not read the Power Query steps from the .pbix file, so I left this for you to confirm.]
+
+[TO FILL: the pdays band cut-offs above are my reading of your dashboard labels. Confirm the exact boundaries you used (for example, whether "<3 months" means up to 90 days).]
+
+## Data Analysis
+The analysis centers on the conversion rate: the number of customers who subscribed divided by the number of customers contacted. The overall rate is 47.38%. I calculated it for each major field and compared each group against that baseline.
+
+Dataset summary
+
+Total customers: 11,162
+Subscriptions: 5,289
+Overall conversion rate: 47.38%
+Average call duration: 371.99 seconds (about 6.2 minutes)
+Average age: 41.2 years (median 39)
+Median account balance: 550 (mean 1,528.54)
+Average calls per customer this campaign: 2.51 (median 2)
+Conversion rate by segment (all figures checked against bank.csv)
+
+Previous outcome: success: 91.32% (1,071 customers)
+Previous outcome: unknown (never contacted before): 40.67% (8,326 customers)
+Student: 74.72% (360 customers)
+Retired: 66.32% (778 customers)
+Blue-collar (lowest job group): 36.42% (1,944 customers)
+Age 60+: 76.92% (780 customers)
+Age 40-49 (lowest age group): 40.45% (2,628 customers)
+1 call: 53.38% (4,798 customers)
+11+ calls: 22.38% (210 customers)
+Negative balance: 30.52% (688 customers)
+Balance 5,000+: 57.20% (771 customers)
+Contact: cellular: 54.33% (8,042 customers)
+Contact: telephone: 50.39% (774 customers)
+Contact: unknown: 22.59% (2,346 customers)
+Contacted under 3 months ago: 76.29% (329 customers)
+Never contacted before: 40.65% (8,324 customers)
+Other patterns found in the data:
+
+Education: tertiary 54.11%, secondary 44.74%, primary 39.40%.
+Marital status: single 54.35%, divorced 48.11%, married 43.38%.
+Loans: customers with a housing loan convert at 36.64% (vs 57.03% without). Customers with a personal loan convert at 33.15% (vs 49.53% without).
+Month: conversion ranges from 32.75% in May to 90.91% in December, though December has only 110 customers.
+Call duration: subscribers averaged 537 seconds per call and non-subscribers 223 seconds.
+[TO FILL: the project brief asks for histograms, box plots and a correlation heatmap. Add them here if you created them (in Power BI, Python or Excel) and link the images. If you didn't, either create them or delete this note. For reference, the largest correlation between numeric fields is pdays and previous at 0.51, and no numeric field correlates strongly with age or balance.]
+
+## Dashboard
+Show Image
+
+[TO FILL: save your screenshot into an images folder in the repo as dashboard.png, or update the path above to match the file name you use.]
+
+The dashboard has four KPI cards (Total Customers, Total Subscriptions, Average Call Duration, Conversion Rate) and seven charts: conversion rate by occupation, pdays group, contact method, age group, number of calls, account balance, and previous campaign outcome.
+
+Fix before publishing: the Conversion Rate by Contact Method donut shows 42.67% (cellular), 39.58% (telephone) and 17.75% (unknown). Those are not conversion rates. They are each channel's rate divided by the sum of the three rates (54.33 + 50.39 + 22.59). The real conversion rates are 54.33% for cellular, 50.39% for telephone and 22.59% for unknown. A donut chart also isn't a good fit for rates, because the slices aren't parts of one whole. Switching to a bar chart like your other visuals would fix it.
+
+[TO FILL: add a link to the published dashboard or the .pbix file if you want people to open it.]
+
+## Key Insights
+1. Campaign history is the strongest predictor. Customers who said yes in a previous campaign converted at 91.32%, against 40.67% for customers with no previous outcome. That gap is bigger than the spread within any demographic variable. Recent contact helps too: customers contacted within the last 3 months converted at 76.29%.
+
+2. More calls means lower conversion. The rate falls from 53.38% on one call to 22.38% at 11 or more. The decline isn't perfectly smooth: 2 calls (46.27%) and 3 calls (46.78%) are about the same, but after 3 calls it drops steadily (4 calls 41.12%, 5 calls 36.77%, 6 to 10 calls 29.16%).
+
+3. Life stage matters more than income. Students (74.72%) and retirees (66.32%) convert far above the 47.38% average. Age follows a U-shape: under 30 (59.83%) and 60+ (76.92%) do well, while the 40-49 group is lowest at 40.45%.
+
+4. Financial capacity matters. Conversion climbs from 30.52% for negative balances to 57.20% for balances above 5,000. Customers with a housing loan or personal loan convert noticeably less than those without.
+
+5. Blue-collar, housemaid and entrepreneur customers are a weak spot. Together they make up 22.8% of the customer base and convert at 36.92%, about 10 points below average.
+
+6. Contact data quality is a problem. 21.0% of customers (2,346) have an unknown contact method, and they convert at only 22.59%, compared with 54.33% for cellular.
+
+7. Timing shows a pattern. May carries the heaviest call volume (2,824 customers) and has the lowest conversion (32.75%). September to December converts at 62.1% overall, but on a much smaller volume (1,764 customers).
+
+## Risks and opportunities
+
+Risk: a large share of effort goes to groups that convert poorly (unknown contact method, 5+ calls, negative balances).
+Opportunity: the 1,071 prior-success customers are a small, warm group that converts at 91.32%.
+Recommendations
+Re-engage prior-success customers first. Build a dedicated outreach list from the 1,071 customers with a previous success. At 91.32%, no other segment offers a better return.
+Limit follow-up calls to about 3 per customer. Conversion stays at about 46% or higher through the third call and falls to 41% at the fourth. Stopping after 3 unsuccessful attempts frees up calls for better leads. [TO FILL: decide whether you want to defend a cap of 3 or 4. The drop after call 3 is clear in the data, but the cut-off is a judgment call.]
+Tailor offers to students and retirees. Both convert well above average. Consider offer structures that fit each group, such as smaller minimum deposits for students and income-focused messaging for retirees. (This is a suggestion, not something the data tests.)
+Screen out or redirect low-balance leads. Customers with negative (30.52%) or zero (37.73%) balances convert well below average. Remove them from the call list or offer them a different product.
+Clean contact records and review campaign timing. Fix unknown contact methods before launch, and look at moving call volume away from May toward the months where conversion was stronger. [TO FILL: this data covers one campaign, so check whether you want to word the timing advice as "test" instead of "move".]
+Limitations
+One campaign only. The data comes from a single past campaign, so patterns may not hold in a different year or market.
+Correlation, not causation. The analysis shows which groups converted more, not why.
+Call duration can't be used for targeting. Longer calls go with subscriptions (537 vs 223 seconds), but the duration is only known after the call happens, so it can't help decide who to call.
+Small groups. Some segments are small, so their rates are less reliable: 12+ months since last contact (252 customers), 11+ calls (210), December (110) and unknown jobs (70).
+Many unknowns. 8,326 customers have no previous campaign outcome, and 2,346 have no recorded contact method.
+No statistical testing or predictive model. The findings use conversion rates and visuals only. [TO FILL: if you ran any statistical tests or built a model, describe them here.]
+Conclusion
+The next term deposit campaign will gain more from using what the bank already knows about its customers than from finding new ones. Past campaign results and recent contact predict subscription better than any demographic trait, and the current approach spends too many calls on low-probability leads. Focusing on prior-success customers, capping follow-up calls, targeting students and retirees, and cleaning up contact data should raise the conversion rate without raising cost.
+
+Project Files
+├── data/
+│   └── bank.csv
+├── dashboard/
+│   └── AnalystLab_P1_W1.pbix
+├── images/
+│   └── dashboard.png
+├── reports/
+│   ├── Bank_Marketing_Case_Study_Report.docx
+│   └── Report_1_Week_1.docx
+├── presentation/
+│   └── Bank_Marketing_Campaign_Analysis.pptx
+└── README.md
+[TO FILL: adjust the folder layout to match how you actually organize the repo. Also decide whether to publish both Word reports or only the final one.]
+
+Contact Information
+Name: [TO FILL]
+LinkedIn: [TO FILL]
+GitHub: [TO FILL: https://github.com/aderonke27]
+Email: [TO FILL]
+
+Claude finished the response
