@@ -118,6 +118,7 @@ One caution: call duration is the single strongest predictor of a yes, but the b
 
 ## Dashboard
 <img width="1459" height="817" alt="Screenshot (262)" src="https://github.com/user-attachments/assets/e6a0c318-cc84-4654-b99a-095f647fa15f" />
+
 The dashboard has four headline numbers at the top:
 * 11,162 total customers
 * 5.29K total subscriptions
@@ -174,6 +175,8 @@ Customers subscribe when the bank has history with them, when it reaches them on
 The bigger lesson is that the next campaign will do better by using what the bank already knows about its customers, instead of making more calls. Calling past subscribers first, capping calls at three, tailoring offers to the best groups, and cleaning up contact records can lift the subscription rate without raising the cost of the campaign.
 
 ## Project Files
+* [View Dataset](./bank.csv)
+* [View Power BI report](./Bank_marketing_campaign_BIreport.pbix)
 
 ## Contact Information
 * Email: aladeloyeesther616@gmail.com
