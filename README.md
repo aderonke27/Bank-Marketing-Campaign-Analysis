@@ -1,4 +1,6 @@
 # Bank-Marketing-Campaign-Analysis
+![Power BI](https://img.shields.io/badge/Tool-Power%20BI-F2C811?style=flat&logo=powerbi&logoColor=black)
+![Domain](https://img.shields.io/badge/Domain-Marketing%20Analytics-blue)
 
 ## Table of Contents
 1. [Project Overview](#project-overview)
