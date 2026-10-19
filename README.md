@@ -117,7 +117,7 @@ From there I calculated the conversion rate for every group in each field, which
 One caution: call duration is the single strongest predictor of a yes, but the bank only knows it after the call is over. It can't be used to decide who to call, so the recommendations below rely on information available beforehand.
 
 ## Dashboard
-
+<img width="1459" height="817" alt="Screenshot (262)" src="https://github.com/user-attachments/assets/e6a0c318-cc84-4654-b99a-095f647fa15f" />
 The dashboard has four headline numbers at the top:
 * 11,162 total customers
 * 5.29K total subscriptions
@@ -151,19 +151,6 @@ Below them, seven charts break the conversion rate down by customer group and co
 * Risk: the biggest share of calls goes to customers with no history and, in many cases, no reliable phone record. That's exactly where conversion is weakest, so the cost per subscription is highest.
 * Risk: repeated calling past three attempts lowers the success rate and can damage how customers feel about the bank.
 
-1. Campaign history is the strongest predictor. Customers who said yes in a previous campaign converted at 91.32%, against 40.67% for customers with no previous outcome. That gap is bigger than the spread within any demographic variable. Recent contact helps too: customers contacted within the last 3 months converted at 76.29%.
-2. More calls means lower conversion. The rate falls from 53.38% on one call to 22.38% at 11 or more. The decline isn't perfectly smooth: 2 calls (46.27%) and 3 calls (46.78%) are about the same, but after 3 calls it drops steadily (4 calls 41.12%, 5 calls 36.77%, 6 to 10 calls 29.16%).
-
-3. Life stage matters more than income. Students (74.72%) and retirees (66.32%) convert far above the 47.38% average. Age follows a U-shape: under 30 (59.83%) and 60+ (76.92%) do well, while the 40-49 group is lowest at 40.45%.
-
-4. Financial capacity matters. Conversion climbs from 30.52% for negative balances to 57.20% for balances above 5,000. Customers with a housing loan or personal loan convert noticeably less than those without.
-
-5. Blue-collar, housemaid and entrepreneur customers are a weak spot. Together they make up 22.8% of the customer base and convert at 36.92%, about 10 points below average.
-
-6. Contact data quality is a problem. 21.0% of customers (2,346) have an unknown contact method, and they convert at only 22.59%, compared with 54.33% for cellular.
-
-7. Timing shows a pattern. May carries the heaviest call volume (2,824 customers) and has the lowest conversion (32.75%). September to December converts at 62.1% overall, but on a much smaller volume (1,764 customers).
-
 ## Recommendations
 1. Call the customers who have said yes before, first. Build the start of the next campaign around customers whose earlier campaign was a success (91.32%), then those whose result was "other" (57.17%) or a failure (50.33%). Reach cold prospects only after that. This group is small, but it will give the best return per call.
 2. Stop calling after three attempts. The numbers show conversion dropping sharply after the third call. Set a limit of three calls per customer. The time saved can go to fresh leads or to returning customers, where each call is worth more.
@@ -173,27 +160,13 @@ Below them, seven charts break the conversion rate down by customer group and co
 6. Cut back effort on the low-converting occupations. Blue-collar workers, entrepreneurs, housemaids and services staff convert at 36 to 40%. Don't drop them completely, but put them lower on the call list unless they also have a successful history with the bank.
 7. Keep customers warm between campaigns. The dashboard shows that contact in the last 3 months gives 76.29% conversion. A light touch, such as a message or a short check-in, between campaigns would help keep people receptive.
 
-* Re-engage prior-success customers first. Build a dedicated outreach list from the 1,071 customers with a previous success. At 91.32%, no other segment offers a better return.
-* Limit follow-up calls to about 3 per customer. Conversion stays at about 46% or higher through the third call and falls to 41% at the fourth. Stopping after 3 unsuccessful attempts frees up calls for better leads.
-* Tailor offers to students and retirees. Both convert well above average. Consider offer structures that fit each group, such as smaller minimum deposits for students and income-focused messaging for retirees. (This is a suggestion, not something the data tests.)
-* Screen out or redirect low-balance leads. Customers with negative (30.52%) or zero (37.73%) balances convert well below average. Remove them from the call list or offer them a different product.
-* Clean contact records and review campaign timing. Fix unknown contact methods before launch, and look at moving call volume away from May toward the months where conversion was stronger. [TO FILL: this data covers one campaign, so check whether you want to word the timing advice as "test" instead of "move".]
-
 ## Limitations
 * One campaign only. The data comes from a single past campaign, so patterns may not hold in a different year or market.
-* Correlation, not causation. The analysis shows which groups converted more, not why.
-* Call duration can't be used for targeting. Longer calls go with subscriptions (537 vs 223 seconds), but the duration is only known after the call happens, so it can't help decide who to call.
+* Conversion rate shows a link, not a cause. A high rate among retirees doesn't prove that being retired makes someone subscribe. Other factors may be involved. The analysis shows which groups converted more, not why.
+* The dashboard looks at one factor at a time. Real customers combine several traits (for example, a young student with a negative balance), and the dashboard doesn't show those mixes.
 * Small groups. Some segments are small, so their rates are less reliable: 12+ months since last contact (252 customers), 11+ calls (210), December (110) and unknown jobs (70).
 * Many unknowns. 8,326 customers have no previous campaign outcome, and 2,346 have no recorded contact method.
-* No statistical testing or predictive model. The findings use conversion rates and visuals only. [TO FILL: if you ran any statistical tests or built a model, describe them here.]
-* The data covers one campaign. Results may not hold for a different time, a different product or a different country. The bank in this dataset is Portuguese.
-* Conversion rate shows a link, not a cause. A high rate among retirees doesn't prove that being retired makes someone subscribe. Other factors may be involved.
-* The dashboard looks at one factor at a time. Real customers combine several traits (for example, a young student with a negative balance), and the dashboard doesn't show those mixes.
-* Group sizes differ. A few groups are small, so their percentages can swing more than the larger groups. The dashboard doesn't show group sizes.
-* Call duration can't be used for targeting. It's known only after the call ends, so it helps explain results but not who to call.
-* Unknown values. Some customers have unknown occupation, education or contact method, which blurs the picture for those fields.
-* The contact method donut chart shows rates as shares of a total, not true conversion rates (see the note under Key Insights).
-* Timing isn't on the dashboard. The raw data shows big differences by month (May converts at 32.8% while December, March, September and October convert at 82 to 91%), but this isn't in the dashboard yet. It's worth adding.
+* No statistical testing or predictive model. The findings use conversion rates and visuals only.
 
 ## Conclusion
 Customers subscribe when the bank has history with them, when it reaches them on a working phone line, when it doesn't overcall them, and when they have enough money in the account to commit. The groups most likely to respond well are past subscribers, students, retirees, customers aged 60 and over, and customers with balances above 1,000.
