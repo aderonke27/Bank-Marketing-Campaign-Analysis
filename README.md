@@ -179,6 +179,7 @@ The bigger lesson is that the next campaign will do better by using what the ban
 ## Project Files
 * [View Dataset](./bank.csv)
 * [View Power BI report](./Bank_marketing_campaign_BIreport.pbix)
+* [View Power point report](./Bank_Marketing_Campaign_Analysis.)
 
 ## Contact Information
 * Email: aladeloyeesther616@gmail.com
