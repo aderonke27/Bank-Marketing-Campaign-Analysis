@@ -67,56 +67,101 @@ The data was already in good shape. The checks I confirmed:
 * Conversion rate: calculated as the number of customers who subscribed divided by the number of customers in that group.
 
 ## Data Analysis
-The analysis centers on the conversion rate: the number of customers who subscribed divided by the number of customers contacted. The overall rate is 47.38%. I calculated it for each major field and compared each group against that baseline.
+The analysis was built inside Power BI on a single table called bank (loaded from bank.csv). The idea was simple: define one measure that calculates the conversion rate, create grouped columns so that continuous fields can be read at a glance, then drop each grouped column into a chart next to the conversion rate. Every chart on the dashboard answers one part of the problem statement.
 
-Dataset summary
+Before building anything I checked row and column counts, data types, missing values and summary statistics. A few numbers shaped the rest of the work: The average customer is about 41 years old (range 18 to 95).
+The average balance is about 1,528, but the middle customer holds only 550, so a few very large accounts pull the average up. That's why balance needed to be grouped into bands.
+The average call lasts about 372 seconds. Customers who subscribed talked for around 537 seconds on average, against 223 for those who didn't.
+The average customer was called 2.5 times, but a few were called as many as 63 times. Again, bands were needed.
+8,324 customers (about 75%) had never been contacted before. For them pdays is -1, which is a code for "never", not a real number of days, so it had to be handled separately.
 
-Total customers: 11,162
-Subscriptions: 5,289
-Overall conversion rate: 47.38%
-Average call duration: 371.99 seconds (about 6.2 minutes)
-Average age: 41.2 years (median 39)
-Median account balance: 550 (mean 1,528.54)
-Average calls per customer this campaign: 2.51 (median 2)
-Conversion rate by segment (all figures checked against bank.csv)
+Three columns were renamed so that anyone reading the dashboard understands the labels without a data dictionary:
+* job became occupation
+* contact became contact method
+* poutcome became previous campaign outcome
 
-Previous outcome: success: 91.32% (1,071 customers)
-Previous outcome: unknown (never contacted before): 40.67% (8,326 customers)
-Student: 74.72% (360 customers)
-Retired: 66.32% (778 customers)
-Blue-collar (lowest job group): 36.42% (1,944 customers)
-Age 60+: 76.92% (780 customers)
-Age 40-49 (lowest age group): 40.45% (2,628 customers)
-1 call: 53.38% (4,798 customers)
-11+ calls: 22.38% (210 customers)
-Negative balance: 30.52% (688 customers)
-Balance 5,000+: 57.20% (771 customers)
-Contact: cellular: 54.33% (8,042 customers)
-Contact: telephone: 50.39% (774 customers)
-Contact: unknown: 22.59% (2,346 customers)
-Contacted under 3 months ago: 76.29% (329 customers)
-Never contacted before: 40.65% (8,324 customers)
-Other patterns found in the data:
+Four DAX measures sit behind the cards and every chart. The key one is Conversion Rate. Because it's a measure and not a fixed number, it recalculates for whatever group a chart is showing. Put it next to "student" and it gives the student rate. Put it next to "11+ calls" and it gives that rate. That's how one formula produces all seven charts:
 
-Education: tertiary 54.11%, secondary 44.74%, primary 39.40%.
-Marital status: single 54.35%, divorced 48.11%, married 43.38%.
-Loans: customers with a housing loan convert at 36.64% (vs 57.03% without). Customers with a personal loan convert at 33.15% (vs 49.53% without).
-Month: conversion ranges from 32.75% in May to 90.91% in December, though December has only 110 customers.
-Call duration: subscribers averaged 537 seconds per call and non-subscribers 223 seconds.
-[TO FILL: the project brief asks for histograms, box plots and a correlation heatmap. Add them here if you created them (in Power BI, Python or Excel) and link the images. If you didn't, either create them or delete this note. For reference, the largest correlation between numeric fields is pdays and previous at 0.51, and no numeric field correlates strongly with age or balance.]
-I started with a standard exploratory pass: row and column counts, data types, missing values, summary statistics and the distribution of the main variables.
+### Measures
+1. total customers counts every row in the current group, since each row is one customer.
 
-A few numbers from that first look:
+DAX
+total customers = COUNTROWS('bank')
 
-- The average customer is about 41 years old (range 18 to 95).
-- The average account balance is about 1,528, but the middle customer holds only 550, so a small number of very wealthy accounts pull the average up.
-- The average call lasts about 372 seconds (just over 6 minutes). Customers who subscribed talked for around 537 seconds on average, against 223 seconds for those who didn't.
-- The average customer was called 2.5 times in the campaign, but a few were called as many as 63 times.
-- 8,324 customers (about 75%) had never been contacted in an earlier campaign.
+2. Total Deposits counts only the customers who subscribed to a term deposit (the "yes" answers). This is the 5.29K on the dashboard.
 
-From there I calculated the conversion rate for every group in each field, which is what the dashboard shows. I also trained a Random Forest model to rank which fields matter most. Past campaign history, contact method, timing and financial profile came out as the strongest signals that the bank knows before it picks up the phone.
+DAX
+Total Deposits =
+CALCULATE(
+    COUNTROWS('bank'),
+    'bank'[deposit] = "yes"
+)
 
-One caution: call duration is the single strongest predictor of a yes, but the bank only knows it after the call is over. It can't be used to decide who to call, so the recommendations below rely on information available beforehand.
+3. Conversion Rate divides subscribers by customers. DIVIDE is used instead of a plain / so that an empty group returns blank instead of an error.
+
+DAX
+Conversion Rate = DIVIDE([Total Deposits], [total customers])
+
+4. Average Call Duration is the average length of the last call in seconds (371.99 on the dashboard).
+
+DAX
+Average Call Duration = AVERAGE('bank'[duration])
+
+### Calculated columns
+Age, balance, number of calls and days since last contact are all numbers with a lot of distinct values. Plotted raw, they'd give dozens of tiny bars with no pattern. I created four calculated columns that sort each customer into a band. Each uses SWITCH(TRUE(), ...), which checks the conditions from top to bottom and stops at the first one that is true.
+
+1. Age Group splits customers into life stages.
+
+DAX
+Age Group =
+SWITCH(
+    TRUE(),
+    'bank'[age] < 30, "Under 30",
+    'bank'[age] <= 39, "30-39",
+    'bank'[age] <= 49, "40-49",
+    'bank'[age] <= 59, "50-59",
+    "60+"
+)
+
+2. Balance Group separates customers in debt, customers with nothing, and then three levels of savings.
+
+DAX
+Balance Group =
+SWITCH(
+    TRUE(),
+    'bank'[balance] < 0, "Negative",
+    'bank'[balance] = 0, "Zero",
+    'bank'[balance] <= 1000, "1-1,000",
+    'bank'[balance] <= 5000, "1,001-5,000",
+    "5,000+"
+)
+
+3. Campaign Group bands the number of calls made to a customer in this campaign. The bands get wider as the numbers get rarer, so the heavily called customers (6 and above) still show up as their own groups.
+
+DAX
+Campaign Group =
+SWITCH(
+    TRUE(),
+    'bank'[campaign] = 1, "1 call",
+    'bank'[campaign] = 2, "2 calls",
+    'bank'[campaign] = 3, "3 calls",
+    'bank'[campaign] <= 5, "4-5 calls",
+    'bank'[campaign] <= 10, "6-10 calls",
+    "11+ calls"
+)
+
+4. Pdays Group turns "days since the customer was last contacted" into a readable recency band. The first test catches the -1 code so that "never contacted" customers don't get mixed in with customers contacted very recently.
+
+DAX
+Pdays Group =
+SWITCH(
+    TRUE(),
+    'bank'[pdays] = -1, "Never contacted",
+    'bank'[pdays] <= 90, "<3 months",
+    'bank'[pdays] <= 180, "3-6 months",
+    'bank'[pdays] <= 365, "6-12 months",
+    "12+ months"
+)
 
 ## Dashboard
 <img width="1459" height="817" alt="Screenshot (262)" src="https://github.com/user-attachments/assets/e6a0c318-cc84-4654-b99a-095f647fa15f" />
